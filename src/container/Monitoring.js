@@ -7,7 +7,7 @@ import * as monitoringActions from '../actions/monitoringActions';
 class Monitoring extends Component {
 
   componentWillMount() {
-    this.props.monitoringActions.fetchMockData();
+    this.props.monitoringActions.fetchMockData(7);
   }
 
   render() {
@@ -20,9 +20,10 @@ class Monitoring extends Component {
         <ul>
           {this.props.monitoring.map(monitor =>
             <li
-              key={monitor.id}
+              key={monitor.value}
             >
               {monitor.value}
+              {new Date(monitor.date).toString()}
             </li>
           )}
         </ul>
