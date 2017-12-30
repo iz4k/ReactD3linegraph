@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 
 const Header = styled.h1`
-  color: #342;
-  font-family: sans-serif;
+  color: #333;
   letter-spacing: 2px;
   text-align: center;
 `;
