@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import Header from './presentational/Header';
 
 class App extends Component {
   render() {
     return (
       <div>
-        <span>Monitoring</span>
+        <Header>Monitoring chart</Header>
       </div>
     );
   }
