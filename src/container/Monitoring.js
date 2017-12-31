@@ -64,11 +64,11 @@ class Monitoring extends Component {
     return (
       <div>
         <ToggleButtonContainer>
-          <ToggleButton color={getMonitoringColor('temperature')} onClick={() => this.toggleData('temperature')}>Temperature</ToggleButton>
-          <ToggleButton color={getMonitoringColor('pressure')} onClick={() => this.toggleData('pressure')}>Pressure</ToggleButton>
-          <ToggleButton color={getMonitoringColor('vibration')} onClick={() => this.toggleData('vibration')}>Vibration</ToggleButton>
-          <ToggleButton color={getMonitoringColor('current')} onClick={() => this.toggleData('current')}>Current</ToggleButton>
-          <ToggleButton color={getMonitoringColor('ultrasound')} onClick={() => this.toggleData('ultrasound')}>Ultrasound</ToggleButton>
+          <ToggleButton active={this.state.activeData.temperature} color={getMonitoringColor('temperature')} onClick={() => this.toggleData('temperature')}>Temperature</ToggleButton>
+          <ToggleButton active={this.state.activeData.pressure} color={getMonitoringColor('pressure')} onClick={() => this.toggleData('pressure')}>Pressure</ToggleButton>
+          <ToggleButton active={this.state.activeData.vibration} color={getMonitoringColor('vibration')} onClick={() => this.toggleData('vibration')}>Vibration</ToggleButton>
+          <ToggleButton active={this.state.activeData.current} color={getMonitoringColor('current')} onClick={() => this.toggleData('current')}>Current</ToggleButton>
+          <ToggleButton active={this.state.activeData.ultrasound} color={getMonitoringColor('ultrasound')} onClick={() => this.toggleData('ultrasound')}>Ultrasound</ToggleButton>
         </ToggleButtonContainer>
         {this.renderMonitoringGraph()}
       </div>

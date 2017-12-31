@@ -6,6 +6,7 @@ const ToggleButton = styled.button`
   padding: 10px;
   margin: 10px;
   border-radius: 4px;
+  background-color: ${props => (props.active ? '#fff' : '#e1e1e1')};
   &:before {
     content: "";
     display: inline-block;
