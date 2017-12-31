@@ -85,8 +85,8 @@ class MonitoringGraph extends Component {
 
   resizeGraph() {
     this.initializeGraph();
-    this.drawDataLines();
     this.drawAxis();
+    this.drawDataLines();
   }
 
   render() {
