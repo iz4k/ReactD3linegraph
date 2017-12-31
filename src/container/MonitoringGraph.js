@@ -43,7 +43,7 @@ class MonitoringGraph extends Component {
         .attr('class', 'overlay')
         .attr('width', this.container.clientWidth - 40)
         .attr('height', this.container.clientHeight)
-        .attr('fill', 'none')
+        .attr('fill', '#f9f9f9')
         .attr('pointer-events', 'all')
         .on('mousemove', this.drawSelectorLine)
         .on('click', this.drawSelectedLine);
