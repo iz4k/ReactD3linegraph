@@ -13,15 +13,15 @@ export const generateMockData = (range) => {
 export const getMonitoringColor = (key) => {
   switch (key) {
     case 'temperature':
-      return 'red';
+      return '#04e002';
     case 'pressure':
-      return 'green';
+      return '#eeff0b';
     case 'vibration':
-      return 'yellow';
+      return '#00c2ff';
     case 'current':
-      return 'blue';
+      return '#ff8f00';
     case 'ultrasound':
-      return 'papayawhip';
+      return '#d1d1d1';
     default:
       return '#333';
   }

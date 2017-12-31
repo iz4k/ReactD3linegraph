@@ -4,7 +4,7 @@ const ToggleButtonContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: flex-start;
 `;
 
 export default ToggleButtonContainer;
