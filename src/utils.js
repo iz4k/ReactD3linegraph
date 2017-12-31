@@ -2,9 +2,10 @@ import * as d3 from 'd3';
 
 export const generateMockData = (range) => {
   const today = new Date();
+  today.setHours(0, 0,0,0);
   return Array.from(new Array(range), (x, i) => {
     return {
-      date: new Date().setDate(today.getDate() - i),
+      date: today.setDate(today.getDate() - 1),
       value: Math.random() * 5
     }
   });
