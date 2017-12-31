@@ -10,11 +10,20 @@ const GraphContainer = styled.div`
   g line {
     stroke: lightgrey;
   }
+  svg {
+    cursor: pointer;
+  }
   .dataline {
     fill: none;
     stroke-linejoin: round;
     stroke-linecap: round;
     stroke-width: 3px;
+  }
+  .selectorline {
+    fill: none;
+    stroke-width: 3px;
+    stroke: #d1d1d1;
+    stroke-dasharray: 5;
   }
 `;
 
