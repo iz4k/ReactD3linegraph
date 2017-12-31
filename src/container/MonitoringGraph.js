@@ -35,7 +35,10 @@ class MonitoringGraph extends Component {
   }
 
   drawAxis() {
+    //remove old axis and grid lines
     d3.selectAll('g').remove();
+
+    //draw left and bottom axis lines
     d3.select(this.svg)
       .append('g')
         .attr('transform', `translate(0, ${this.container.clientHeight})`)
@@ -44,12 +47,29 @@ class MonitoringGraph extends Component {
     d3.select(this.svg)
       .append('g')
         .call(d3.axisLeft(yAxis));
+
+    //draw background grid
+    d3.select(this.svg)
+      .append('g')
+        .call(d3.axisRight(yAxis)
+          .tickSize(this.container.clientWidth - 40)
+          .tickFormat(""));
+    
+    d3.select(this.svg)
+      .append('g')
+        .attr('transform', `translate(0, ${this.container.clientHeight})`)
+        .call(d3.axisTop(xAxis)
+          .tickSize(this.container.clientHeight)
+          .tickFormat(""));
   }
 
   drawDataLines() {
+    //remove previous graph lines
     for(const key in this.props.graphData) {
       d3.select(`.${key}`).remove()
     }
+    
+    //draw data graph if it has data and it is active
     for(const key in this.props.graphData) {
       const dataset = this.props.graphData[key];
       if(dataset.length > 0 && this.props.activeData[key]) {        

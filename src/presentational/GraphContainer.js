@@ -7,6 +7,9 @@ const GraphContainer = styled.div`
   svg:not(:root) {
     overflow: visible;
   }
+  g line {
+    stroke: lightgrey;
+  }
   .dataline {
     fill: none;
     stroke-linejoin: round;
