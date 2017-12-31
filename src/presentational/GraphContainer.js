@@ -1,16 +1,17 @@
 import styled from 'styled-components';
 
 const GraphContainer = styled.div`
-  min-height: 500px;
+  height: 500px;
   margin: 40px;
+  margin-right: 0px;
   svg:not(:root) {
     overflow: visible;
   }
-  path {
+  .dataline {
     fill: none;
     stroke-linejoin: round;
     stroke-linecap: round;
-    stroke-width: 5;
+    stroke-width: 3px;
   }
 `;
 
