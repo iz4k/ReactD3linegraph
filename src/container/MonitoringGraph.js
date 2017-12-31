@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import * as d3 from 'd3';
 import { xAxis, yAxis, lineGraph, getMonitoringColor } from '../utils';
 import GraphContainer from '../presentational/GraphContainer';
+import { local } from 'd3';
 
 class MonitoringGraph extends Component {
   constructor(props) {
@@ -12,6 +13,7 @@ class MonitoringGraph extends Component {
     this.drawDataLines = this.drawDataLines.bind(this);
     this.resizeGraph = this.resizeGraph.bind(this);
     this.drawSelectorLine = this.drawSelectorLine.bind(this);
+    this.drawSelectedLine = this.drawSelectedLine.bind(this);
   }
   componentDidMount() {
     window.addEventListener("resize", this.resizeGraph);
@@ -43,7 +45,8 @@ class MonitoringGraph extends Component {
         .attr('height', this.container.clientHeight)
         .attr('fill', 'none')
         .attr('pointer-events', 'all')
-        .on('mousemove', this.drawSelectorLine);
+        .on('mousemove', this.drawSelectorLine)
+        .on('click', this.drawSelectedLine);
   }
 
   drawAxis() {
@@ -89,6 +92,7 @@ class MonitoringGraph extends Component {
           .append('path')
             .datum(dataset)
             .attr('class', `${key} dataline`)
+            .attr('pointer-events', 'none')
             .attr('stroke', getMonitoringColor(key))
             .attr('d', lineGraph);
       }
@@ -99,10 +103,14 @@ class MonitoringGraph extends Component {
     this.initializeGraph();
     this.drawAxis();
     this.drawDataLines();
+    d3.select('.selectedline').remove();
+    d3.select('.selectorline').remove();
+    d3.selectAll('.selectionCircle').remove();
+
   }
 
   drawSelectorLine() {
-    //remove old axis and grid lines
+    //remove old selector line
     d3.select('.selectorline').remove();
 
     const xPos = d3.event.offsetX;
@@ -110,10 +118,65 @@ class MonitoringGraph extends Component {
     d3.select(this.svg)
       .append('line')
         .attr('class', 'selectorline')
+        .attr('pointer-events', 'none')
         .attr('x1', xPos)
         .attr('y1', 0)
         .attr('x2', xPos)
         .attr('y2', this.container.clientHeight);
+  }
+
+  drawSelectedLine() {
+    //remove old selected line
+    d3.select('.selectedline').remove();
+
+    let xPos = d3.event.offsetX; //click position
+    let x0 = xAxis.invert(xPos); //change position to date
+    if(x0.getHours() >= 12) {  //select date closest to clicked point
+      x0.setDate(x0.getDate() + 1)
+    }
+    x0.setHours(0, 0, 0, 0);  //round date down
+    xPos = xAxis(x0); //change back to coordinate position
+
+    //draw selected line
+    d3.select(this.svg)
+      .append('line')
+        .attr('class', 'selectedline')
+        .attr('x1', xPos)
+        .attr('y1', 0)
+        .attr('x2', xPos)
+        .attr('y2', this.container.clientHeight);
+    
+    //find index of drawn line
+    let idx = 0;
+    for(let i = 0; i < this.props.graphData.temperature.length; i++) {
+      if (new Date(this.props.graphData.temperature[i].date).getDate() === x0.getDate()) {
+        idx = i;
+        break;
+      }
+    }
+    
+    //remove old circles
+    d3.selectAll('.selectionCircle').remove();
+
+    //draw circles on selection path
+    for(const key in this.props.graphData) {
+      const yPos = yAxis(this.props.graphData[key][idx].value);
+      d3.select(this.svg)
+        .append('circle')
+          .attr('class', 'selectionCircle')
+          .attr('fill', getMonitoringColor(key))
+          .attr('cx', xPos)
+          .attr('cy', yPos)
+          .attr('r', 6);
+
+    }
+
+    //find and display selected values
+    const selectedValues = {};
+    for(const key in this.props.graphData) {
+      selectedValues[key] = this.props.graphData[key][idx].value.toFixed(2);
+    }
+    this.props.updateSelectedValues(selectedValues);
   }
 
   render() {
@@ -127,7 +190,9 @@ class MonitoringGraph extends Component {
 }
 
 MonitoringGraph.propTypes = {
-  graphData: PropTypes.object
+  activeData: PropTypes.object,
+  graphData: PropTypes.object,
+  updateSelectedValues: PropTypes.func
 }
 
 export default MonitoringGraph;

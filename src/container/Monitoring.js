@@ -6,6 +6,7 @@ import * as monitoringActions from '../actions/monitoringActions';
 import MonitoringGraph from './MonitoringGraph';
 import ToggleButtonContainer from '../presentational/ToggleButtonContainer';
 import ToggleButton from '../presentational/ToggleButton';
+import SelectedValue from '../presentational/SelectedValue';
 import { getMonitoringColor } from '../utils';
 
 class Monitoring extends Component {
@@ -13,6 +14,7 @@ class Monitoring extends Component {
     super(props);
     this.updateData = this.updateData.bind(this);
     this.toggleData = this.toggleData.bind(this);
+    this.updateSelectedValues = this.updateSelectedValues.bind(this);
     this.state = {
       activeData: {
         temperature: true,
@@ -20,6 +22,13 @@ class Monitoring extends Component {
         vibration: true,
         current: true,
         ultrasound: true
+      },
+      selectedValues: {
+        temperature: null,
+        pressure: null,
+        vibration: null,
+        current: null,
+        ultrasound: null
       }
     }
   }
@@ -46,6 +55,12 @@ class Monitoring extends Component {
     });
   }
 
+  updateSelectedValues(values) {
+    this.setState({
+      selectedValues: values
+    });
+  }
+
   renderMonitoringGraph() {
     for(const key in this.props.monitoring) {
       if(this.props.monitoring[key].length === 0 && this.state.activeData[key]) {
@@ -56,19 +71,35 @@ class Monitoring extends Component {
       <MonitoringGraph
         activeData={this.state.activeData}
         graphData={this.props.monitoring}
+        updateSelectedValues={this.updateSelectedValues}
       />
     )
   }
 
+  renderTest() {
+    const buttonArray = [];
+    for(const key in this.props.monitoring) {
+      buttonArray.push(
+        <ToggleButton
+          key={key}
+          active={this.state.activeData[key]}
+          color={getMonitoringColor(key)}
+          onClick={() => this.toggleData(key)}
+        >
+          {key}
+          <SelectedValue>
+            {this.state.selectedValues[key]}
+          </SelectedValue>
+        </ToggleButton>
+      );
+    }
+    return buttonArray;
+  }
   render() {    
     return (
       <div>
         <ToggleButtonContainer>
-          <ToggleButton active={this.state.activeData.temperature} color={getMonitoringColor('temperature')} onClick={() => this.toggleData('temperature')}>Temperature</ToggleButton>
-          <ToggleButton active={this.state.activeData.pressure} color={getMonitoringColor('pressure')} onClick={() => this.toggleData('pressure')}>Pressure</ToggleButton>
-          <ToggleButton active={this.state.activeData.vibration} color={getMonitoringColor('vibration')} onClick={() => this.toggleData('vibration')}>Vibration</ToggleButton>
-          <ToggleButton active={this.state.activeData.current} color={getMonitoringColor('current')} onClick={() => this.toggleData('current')}>Current</ToggleButton>
-          <ToggleButton active={this.state.activeData.ultrasound} color={getMonitoringColor('ultrasound')} onClick={() => this.toggleData('ultrasound')}>Ultrasound</ToggleButton>
+          {this.renderTest()}
         </ToggleButtonContainer>
         {this.renderMonitoringGraph()}
       </div>

@@ -25,6 +25,11 @@ const GraphContainer = styled.div`
     stroke: #d1d1d1;
     stroke-dasharray: 5;
   }
+  .selectedline {
+    fill: none;
+    stroke-width: 3px;
+    stroke: #585858;
+  }
 `;
 
 export default GraphContainer;

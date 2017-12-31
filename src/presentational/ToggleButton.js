@@ -7,8 +7,9 @@ const ToggleButton = styled.button`
   margin: 10px;
   border-radius: 4px;
   background-color: ${props => (props.active ? '#fff' : '#e1e1e1')};
+  text-transform: capitalize;
   &:before {
-    content: "";
+    content: '';
     display: inline-block;
     width: 1em;
     height: 1em;
