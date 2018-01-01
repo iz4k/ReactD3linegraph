@@ -106,6 +106,7 @@ class MonitoringGraph extends Component {
     d3.select('.selectedline').remove();
     d3.select('.selectorline').remove();
     d3.selectAll('.selectionCircle').remove();
+    this.props.updateSelectedValues({});
 
   }
 
